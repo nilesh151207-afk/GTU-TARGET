@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTU Ranker — Student Hub</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#6b7280;
+    --primary:#635bff;
+    --primary2:#8b5cf6;
+    --border:#e5e7eb;
+    --shadow:0 10px 30px rgba(31,41,55,.08);
+}
+
+body.dark{
+    --bg:#0b1020;
+    --card:#12192b;
+    --text:#f9fafb;
+    --muted:#9ca3af;
+    --border:#25304a;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.25s;
+}
+
+/* NAVBAR */
+.navbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+.logo span{
+    color:var(--text);
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* HERO */
+.hero{
+    margin:35px auto;
+    width:88%;
+    max-width:1200px;
+    padding:45px;
+    border-radius:28px;
+    color:white;
+    background:linear-gradient(135deg,#635bff,#8b5cf6,#a855f7);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    right:-80px;
+    top:-100px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:12px;
+    position:relative;
+    z-index:2;
+}
+
+.hero p{
+    opacity:.9;
+    max-width:600px;
+    font-size:16px;
+    position:relative;
+    z-index:2;
+}
+
+.search{
+    margin-top:25px;
+    max-width:600px;
+    display:flex;
+    background:white;
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+    z-index:2;
+}
+
+.search input{
+    flex:1;
+    border:0;
+    outline:0;
+    padding:16px;
+    font-size:15px;
+}
+
+.search button{
+    border:0;
+    background:#111827;
+    color:white;
+    padding:0 22px;
+    cursor:pointer;
+}
+
+/* CONTAINER */
+.container{
+    width:88%;
+    max-width:1200px;
+    margin:auto;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:35px 0 18px;
+}
+
+.section-title h2{
+    font-size:24px;
+}
+
+.section-title button{
+    border:0;
+    background:none;
+    color:var(--primary);
+    cursor:pointer;
+}
+
+/* QUICK CARDS */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:var(--shadow);
+}
+
+.quick{
+    cursor:pointer;
+    transition:.2s;
+}
+
+.quick:hover{
+    transform:translateY(-5px);
+}
+
+.quick-icon{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.quick h3{
+    margin-bottom:6px;
+}
+
+.quick p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* SUBJECTS */
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.subject{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.subject-icon{
+    width:50px;
+    height:50px;
+    display:grid;
+    place-items:center;
+    background:#eef2ff;
+    border-radius:14px;
+    font-size:23px;
+}
+
+body.dark .subject-icon{
+    background:#202946;
+}
+
+.subject small{
+    color:var(--muted);
+}
+
+/* TOOLS */
+.tools{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.tool input{
+    width:100%;
+    margin:10px 0;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--bg);
+    color:var(--text);
+    outline:none;
+}
+
+.primary-btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:var(--primary);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.result{
+    margin-top:12px;
+    font-weight:700;
+    color:var(--primary);
+}
+
+/* PYQ */
+.pyq-list{
+    display:grid;
+    gap:12px;
+}
+
+.pyq{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.pyq-info strong{
+    display:block;
+}
+
+.pyq-info span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.download{
+    border:0;
+    background:#eef2ff;
+    color:#4f46e5;
+    padding:9px 14px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+body.dark .download{
+    background:#202946;
+    color:#a5b4fc;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    display:none;
+}
+
+/* FOOTER */
+footer{
+    margin-top:60px;
+    padding:30px;
+    text-align:center;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .subject-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+    .navbar{
+        padding:0 5%;
+    }
+
+    .hero{
+        width:92%;
+        padding:30px 22px;
+        border-radius:22px;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .grid,
+    .subject-grid,
+    .tools{
+        grid-template-columns:1fr;
+    }
+
+    .section-title h2{
+        font-size:21px;
+    }
+
+    .bottom-nav{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        height:65px;
+        background:var(--card);
+        border-top:1px solid var(--border);
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+        z-index:200;
+    }
+
+    .bottom-nav button{
+        background:none;
+        border:0;
+        color:var(--muted);
+        font-size:11px;
+        cursor:pointer;
+    }
+
+    .bottom-nav button div{
+        font-size:20px;
+        margin-bottom:2px;
+    }
+
+    footer{
+        margin-bottom:70px;
+    }
+}
+
+/* HIDDEN */
+.hidden{
+    display:none!important;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">GTU <span>Ranker</span></div>
+
+    <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <button class="icon-btn" onclick="showProfile()">👤</button>
+    </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Your Study. Your Rank. 🚀</h1>
+    <p>
+        Notes, previous year papers, calculators and study tools —
+        everything a student needs in one place.
+    </p>
+
+    <div class="search">
+        <input id="searchInput"
+               type="text"
+               placeholder="Search subjects, notes, PYQs...">
+        <button onclick="searchContent()">Search</button>
+    </div>
+</section>
+
+
+<main class="container">
+
+<!-- QUICK ACCESS -->
+<div class="section-title">
+    <h2>Quick Access</h2>
+</div>
+
+<div class="grid">
+
+    <div class="card quick" onclick="scrollToSection('subjects')">
+        <div class="quick-icon">📚</div>
+        <h3>Subjects</h3>
+        <p>Browse your semester subjects</p>
+    </div>
+
+    <div class="card quick" onclick="scrollToSection('pyqs')">
+        <div class="quick-icon">📝</div>
+        <h3>PYQs</h3>
+        <p>Previous year question papers</p>
+    </div>
+
+    <div class="card quick" onclick="scrollToSection('tools')">
+        <div class="quick-icon">🧮</div>
+        <h3>Calculators</h3>
+        <p>SPI, CPI & CGPA tools</p>
+    </div>
+
+    <div class="card quick" onclick="bookmark()">
+        <div class="quick-icon">🔖</div>
+        <h3>Bookmarks</h3>
+        <p>Save important resources</p>
+    </div>
+
+</div>
+
+
+<!-- SUBJECTS -->
+<section id="subjects">
+
+<div class="section-title">
+    <h2>Popular Subjects</h2>
+    <button onclick="alert('More subjects coming soon!')">View All →</button>
+</div>
+
+<div class="subject-grid">
+
+    <div class="card subject searchable">
+        <div class="subject-icon">💻</div>
+        <div>
+            <h3>Programming</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+    <div class="card subject searchable">
+        <div class="subject-icon">⚡</div>
+        <div>
+            <h3>Electrical</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+    <div class="card subject searchable">
+        <div class="subject-icon">📐</div>
+        <div>
+            <h3>Engineering Maths</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+    <div class="card subject searchable">
+        <div class="subject-icon">🔬</div>
+        <div>
+            <h3>Physics</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+    <div class="card subject searchable">
+        <div class="subject-icon">🧪</div>
+        <div>
+            <h3>Chemistry</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+    <div class="card subject searchable">
+        <div class="subject-icon">⚙️</div>
+        <div>
+            <h3>Engineering Mechanics</h3>
+            <small>Notes • PYQs</small>
+        </div>
+    </div>
+
+</div>
+</section>
+
+
+<!-- CALCULATORS -->
+<section id="tools">
+
+<div class="section-title">
+    <h2>Student Tools</h2>
+</div>
+
+<div class="tools">
+
+    <!-- CGPA -->
+    <div class="card tool">
+        <h3>🎯 CGPA Calculator</h3>
+        <p style="color:var(--muted);margin-top:5px">
+            Calculate percentage from CGPA
+        </p>
+
+        <input
+            type="number"
+            id="cgpa"
+            min="0"
+            max="10"
+            step="0.01"
+            placeholder="Enter CGPA (0–10)"
+        >
+
+        <button class="primary-btn" onclick="calculateCGPA()">
+            Calculate
+        </button>
+
+        <div class="result" id="cgpaResult"></div>
+    </div>
+
+
+    <!-- SPI -->
+    <div class="card tool">
+        <h3>📊 SPI Calculator</h3>
+        <p style="color:var(--muted);margin-top:5px">
+            Quick SPI estimate
+        </p>
+
+        <input
+            type="number"
+            id="credits"
+            placeholder="Total Credits"
+        >
+
+        <input
+            type="number"
+            id="points"
+            placeholder="Total Credit Points"
+        >
+
+        <button class="primary-btn" onclick="calculateSPI()">
+            Calculate SPI
+        </button>
+
+        <div class="result" id="spiResult"></div>
+    </div>
+
+</div>
+</section>
+
+
+<!-- PYQs -->
+<section id="pyqs">
+
+<div class="section-title">
+    <h2>Latest PYQs</h2>
+    <button onclick="alert('More PYQs coming soon!')">
+        View All →
+    </button>
+</div>
+
+<div class="card pyq-list">
+
+    <div class="pyq searchable">
+        <div class="pyq-info">
+            <strong>Engineering Mathematics I</strong>
+            <span>Winter 2025 • Semester 1</span>
+        </div>
+
+        <button class="download"
+                onclick="downloadPaper('Engineering Mathematics I')">
+            PDF
+        </button>
+    </div>
+
+    <div class="pyq searchable">
+        <div class="pyq-info">
+            <strong>Programming for Problem Solving</strong>
+            <span>Summer 2025 • Semester 1</span>
+        </div>
+
+        <button class="download"
+                onclick="downloadPaper('Programming for Problem Solving')">
+            PDF
+        </button>
+    </div>
+
+    <div class="pyq searchable">
+        <div class="pyq-info">
+            <strong>Engineering Physics</strong>
+            <span>Winter 2025 • Semester 1</span>
+        </div>
+
+        <button class="download"
+                onclick="downloadPaper('Engineering Physics')">
+            PDF
+        </button>
+    </div>
+
+    <div class="pyq searchable">
+        <div class="pyq-info">
+            <strong>Basic Electrical Engineering</strong>
+            <span>Summer 2025 • Semester 2</span>
+        </div>
+
+        <button class="download"
+                onclick="downloadPaper('Basic Electrical Engineering')">
+            PDF
+        </button>
+    </div>
+
+</div>
+</section>
+
+
+<!-- ANNOUNCEMENT -->
+<div class="section-title">
+    <h2>📢 Notice Board</h2>
+</div>
+
+<div class="card">
+    <h3>Welcome to GTU Ranker</h3>
+    <p style="color:var(--muted);margin-top:8px">
+        Your all-in-one student study platform.
+        More notes, PYQs and student tools will be added soon.
+    </p>
+</div>
+
+</main>
+
+
+<footer>
+    <strong>GTU Ranker</strong>
+    <br>
+    Made for students ❤️
+    <br><br>
+    © 2026 GTU Ranker
+</footer>
+
+
+<!-- MOBILE NAV -->
+<div class="bottom-nav">
+
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <div>🏠</div>
+        Home
+    </button>
+
+    <button onclick="scrollToSection('subjects')">
+        <div>📚</div>
+        Subjects
+    </button>
+
+    <button onclick="scrollToSection('pyqs')">
+        <div>📝</div>
+        PYQs
+    </button>
+
+    <button onclick="scrollToSection('tools')">
+        <div>🧮</div>
+        Tools
+    </button>
+
+    <button onclick="showProfile()">
+        <div>👤</div>
+        Profile
+    </button>
+
+</div>
+
+
+<script>
+
+/* THEME */
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem("theme",dark ? "dark":"light");
+
+    document.getElementById("themeBtn").textContent =
+        dark ? "☀️" : "🌙";
+}
+
+
+/* LOAD THEME */
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+    document.getElementById("themeBtn").textContent="☀️";
+}
+
+
+/* SCROLL */
+function scrollToSection(id){
+
+    document.getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+}
+
+
+/* CGPA */
+function calculateCGPA(){
+
+    const cgpa =
+        parseFloat(document.getElementById("cgpa").value);
+
+    const result =
+        document.getElementById("cgpaResult");
+
+    if(isNaN(cgpa) || cgpa < 0 || cgpa > 10){
+
+        result.textContent =
+            "Please enter CGPA between 0 and 10.";
+
+        return;
+    }
+
+    /*
+       Example conversion.
+       Change this formula according
+       to your university rules.
+    */
+
+    const percentage =
+        ((cgpa - 0.5) * 10).toFixed(2);
+
+    result.textContent =
+        "Estimated Percentage: " + percentage + "%";
+}
+
+
+/* SPI */
+function calculateSPI(){
+
+    const credits =
+        parseFloat(document.getElementById("credits").value);
+
+    const points =
+        parseFloat(document.getElementById("points").value);
+
+    const result =
+        document.getElementById("spiResult");
+
+    if(!credits || !points || credits <= 0){
+
+        result.textContent =
+            "Enter valid credits and points.";
+
+        return;
+    }
+
+    const spi =
+        (points / credits).toFixed(2);
+
+    result.textContent =
+        "Your SPI: " + spi;
+}
+
+
+/* SEARCH */
+function searchContent(){
+
+    const query =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const items =
+        document.querySelectorAll(".searchable");
+
+    if(!query){
+
+        items.forEach(item=>{
+            item.classList.remove("hidden");
+        });
+
+        return;
+    }
+
+    let found = false;
+
+    items.forEach(item=>{
+
+        const text =
+            item.textContent.toLowerCase();
+
+        if(text.includes(query)){
+
+            item.classList.remove("hidden");
+            found = true;
+
+        }else{
+
+            item.classList.add("hidden");
+        }
+
+    });
+
+    if(!found){
+
+        alert("No result found for: " + query);
+    }
+}
+
+
+/* ENTER SEARCH */
+document.getElementById("searchInput")
+.addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+        searchContent();
+    }
+
+});
+
+
+/* BOOKMARK */
+function bookmark(){
+
+    localStorage.setItem(
+        "bookmarks",
+        JSON.stringify(["Student Hub"])
+    );
+
+    alert("⭐ Saved to bookmarks!");
+}
+
+
+/* PROFILE */
+function showProfile(){
+
+    alert(
+        "👤 Student Profile\n\n" +
+        "Name: Student\n" +
+        "Semester: Not selected\n\n" +
+        "Profile system can be connected later."
+    );
+}
+
+
+/* PDF */
+function downloadPaper(name){
+
+    alert(
+        "📄 " + name +
+        "\n\nPDF download link can be connected here."
+    );
+}
+
+</script>
+
+</body>
+</html>
